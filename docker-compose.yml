@@ -6,7 +6,7 @@ services:
       - NET_ADMIN
     ports:
       - 5800:5800  # porta WebUI JDownloader (VNC/NoVNC)
-      - 8888:8888  # Gluetun control
+      - 8889:8888  # Gluetun control
     environment:
       - VPN_SERVICE_PROVIDER=nordvpn
       - OPENVPN_USER=${NORDVPN_USERNAME}
@@ -14,7 +14,7 @@ services:
       - SERVER_COUNTRIES=United States
       - FIREWALL=on
       - FIREWALL_VPN_INPUT_PORTS=5800
-      - FIREWALL_INPUT_PORTS=8888
+      - FIREWALL_INPUT_PORTS=8889
       - TZ=Europe/Rome
     volumes:
       - /DATA/docker/jd-config/gluetun:/gluetun
