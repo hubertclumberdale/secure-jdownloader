@@ -27,7 +27,7 @@ services:
     volumes:
       - /DATA/docker/jd-config/gluetun:/gluetun
     networks:
-      jdownloader-network
+      - jdownloader-network
     restart: unless-stopped
 
   jdownloader:
