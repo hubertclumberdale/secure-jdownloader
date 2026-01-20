@@ -17,7 +17,7 @@ services:
       - FIREWALL_INPUT_PORTS=8888
       - TZ=Europe/Rome
     volumes:
-      - ~/.jd-config/gluetun:/gluetun
+      - /DATA/docker/jd-config/gluetun:/gluetun
     restart: unless-stopped
 
   jdownloader:
@@ -25,6 +25,6 @@ services:
     container_name: jdownloader
     network_mode: "service:gluetun"  # traffico VPN
     volumes:
-      - ~/.jd-config/jdownloader:/opt/JDownloader/cfg
-      - ~/.jd-downloads:/downloads
+      - /DATA/docker/jd-config/jdownloader:/opt/JDownloader/cfg
+      - /DATA/docker/jd-downloads:/downloads
     restart: unless-stopped
