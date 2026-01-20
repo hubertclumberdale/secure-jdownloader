@@ -11,13 +11,23 @@ services:
       - VPN_SERVICE_PROVIDER=nordvpn
       - OPENVPN_USER=${NORDVPN_USERNAME}
       - OPENVPN_PASSWORD=${NORDVPN_PASSWORD}
-      - SERVER_COUNTRIES=United States
+      - SERVER_COUNTRIES=${NORDVPN_COUNTRY:-United States}
       - FIREWALL=on
       - FIREWALL_VPN_INPUT_PORTS=5800
       - FIREWALL_INPUT_PORTS=8889
-      - TZ=Europe/Rome
+      - DOT=on
+      - DOT_PROVIDERS=cloudflare
+
+      # Health check
+      - HEALTH_VPN_DURATION_INITIAL=30s
+      - HEALTH_SUCCESS_WAIT_DURATION=5s
+
+      # Timezone
+      - TZ=${TZ}
     volumes:
       - /DATA/docker/jd-config/gluetun:/gluetun
+    networks:
+      jdownloader-network
     restart: unless-stopped
 
   jdownloader:
@@ -28,3 +38,8 @@ services:
       - /DATA/docker/jd-config/jdownloader:/opt/JDownloader/cfg
       - /DATA/docker/jd-downloads:/downloads
     restart: unless-stopped
+
+
+networks:
+  jdownloader-network:
+    driver: bridge
