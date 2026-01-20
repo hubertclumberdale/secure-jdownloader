@@ -1,0 +1,30 @@
+services:
+  gluetun:
+    image: qmcgaw/gluetun
+    container_name: gluetun
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - 5800:5800  # porta WebUI JDownloader (VNC/NoVNC)
+      - 8888:8888  # Gluetun control
+    environment:
+      - VPN_SERVICE_PROVIDER=nordvpn
+      - OPENVPN_USER=${NORDVPN_USERNAME}
+      - OPENVPN_PASSWORD=${NORDVPN_PASSWORD}
+      - SERVER_COUNTRIES=United States
+      - FIREWALL=on
+      - FIREWALL_VPN_INPUT_PORTS=5800
+      - FIREWALL_INPUT_PORTS=8888
+      - TZ=Europe/Rome
+    volumes:
+      - ~/.jd-config/gluetun:/gluetun
+    restart: unless-stopped
+
+  jdownloader:
+    image: jlesage/jdownloader-2
+    container_name: jdownloader
+    network_mode: "service:gluetun"  # traffico VPN
+    volumes:
+      - ~/.jd-config/jdownloader:/opt/JDownloader/cfg
+      - ~/.jd-downloads:/downloads
+    restart: unless-stopped
